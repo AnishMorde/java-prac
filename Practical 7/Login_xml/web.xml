@@ -1,0 +1,10 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+    <servlet>
+        <servlet-name>logindemo</servlet-name>
+        <servlet-class>com.servlet.Validation2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logindemo</servlet-name>
+        <url-pattern>/MySrv</url-pattern>
+    </servlet-mapping>
+</web-app>

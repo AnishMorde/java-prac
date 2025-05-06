@@ -1,0 +1,82 @@
+//palindrome.java code 1
+
+package Java_Code;
+
+import java.rmi.*;
+
+public interface Palindrome extends Remote {
+    boolean isPalindrome(String str) throws RemoteException;
+}
+
+
+// code 2  PalindromeClient
+
+package Java_Code;
+
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class PalindromeClient {
+    public static void main(String[] args) {
+        try {
+            String name = "palindrome";
+            Registry registry = LocateRegistry.getRegistry(1884);
+            Palindrome palindromeService = (Palindrome) registry.lookup(name);
+
+            String testString = "rotor";  // Change this to test other strings
+            boolean result = palindromeService.isPalindrome(testString);
+
+            System.out.println("Sent: " + testString);
+            System.out.println("Received: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+//code 3 PalindromeImpl
+
+package Java_Code;
+
+
+
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
+
+public class PalindromeImpl extends UnicastRemoteObject implements Palindrome {
+    protected PalindromeImpl() throws RemoteException {
+        super();
+    }
+
+
+    public boolean isPalindrome(String str) throws RemoteException {
+        System.out.println("Received: " + str);
+        String reversed = new StringBuilder(str).reverse().toString();
+        boolean result = str.equalsIgnoreCase(reversed);
+        System.out.println("Sent: " + result);
+        return result;
+    }
+}
+
+//code 4
+
+package Java_Code;
+
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class PalindromeServer {
+    public static void main(String[] args) {
+        try {
+            PalindromeImpl palindromeService = new PalindromeImpl();
+            Registry registry = LocateRegistry.createRegistry(1884);
+            String name = "palindrome";
+            registry.rebind(name, palindromeService);
+            System.out.println("Palindrome Server is ready...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

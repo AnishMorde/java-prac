@@ -1,0 +1,76 @@
+//validation java
+
+package Validation_File;
+
+package com.servlet;
+
+import java.io.*;
+import java.util.*;
+import javax.servlet.*;
+public class Validation extends GenericServlet
+{
+    public void service(ServletRequest req,ServletResponse res)throws
+            ServletException,IOException
+    {
+        PrintWriter pw=res.getWriter();
+        String x=req.getParameter("user");
+        String y=req.getParameter("pwd");
+        if(x.equals("admin")&&y.equals("admin"))
+            pw.println("<font color='green' size='5'>Welcome to this webpage</font>");
+        else
+            pw.println("<font color='red' size='5'>Invalid username or password</font>");
+        pw.close();
+    }
+}
+
+//login.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+<form name="loginForm" method="post" action="./MySrv">
+    <br/><br/><br/><br/><br/>
+    <table align="center" border="3" style="border-color: blue;" cellspacing="0" height="120">
+        <tr>
+            <td align="center"><font color="blue" size="4"><b>LOGIN FORM</b></font></td>
+        </tr>
+        <tr>
+            <td>
+                <table align="center">
+                    <tr>
+                        <td>UserName:</td>
+                        <td><input type="text" name="user" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input type="password" name="pwd" required/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><input type="submit" value="LOGIN"/></td>
+                        <td align="center"><input type="reset" value="RESET"/></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+
+//web.xml
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+    <servlet>
+        <servlet-name>logindemo</servlet-name>
+        <servlet-class>com.servlet.Validation2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logindemo</servlet-name>
+        <url-pattern>/MySrv</url-pattern>
+    </servlet-mapping>
+</web-app>
